@@ -10,15 +10,17 @@ import SwiftUI
 struct BottomButtonBar: View {
     
     @State var isFavorite = false
+    @State var showSheet = false
     
     func toggleFavorite() {
         isFavorite.toggle()
     }
     
     var body: some View {
+        
         HStack() {
             Button {
-                // action - call a popup sheet
+                showSheet = true
             } label: {
                 HStack {
                     Image(systemName: "tag.fill")
@@ -31,13 +33,19 @@ struct BottomButtonBar: View {
                 .foregroundColor(.white)
                 .background(
                     Capsule()
-//                        .fill(Color.blue)
                         .opacity(0.5)
                         .glassEffect()
                 )
             }
+            .sheet(isPresented: $showSheet) {
+                RoundedRectangle(cornerRadius: 16) // replace with BookSheet
+                    .frame(width: 350, height: 350)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+                    .padding()
+            }
             Button {
-                toggleFavorite()
+                toggleFavorite() // no Core Data implemented yet
             } label: {
                 Image(systemName: isFavorite ? "heart.fill" : "heart")
                     .padding()
@@ -58,10 +66,10 @@ struct BottomButtonBar: View {
 #Preview {
     ScrollView {
         VStack {
-            RoundedRectangle(cornerRadius: 16).fill(Color.gray).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
-            RoundedRectangle(cornerRadius: 16).fill(Color.gray).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
-            RoundedRectangle(cornerRadius: 16).fill(Color.gray).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
-            RoundedRectangle(cornerRadius: 16).fill(Color.gray).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
+            RoundedRectangle(cornerRadius: 16).fill(Color.teal).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
+            RoundedRectangle(cornerRadius: 16).fill(Color.pink).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
+            RoundedRectangle(cornerRadius: 16).fill(Color.blue).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
+            RoundedRectangle(cornerRadius: 16).fill(Color.brown).frame(height: 300).padding(.horizontal).padding(.vertical, 4)
         }
     }.safeAreaInset(edge: .bottom){
         BottomButtonBar()

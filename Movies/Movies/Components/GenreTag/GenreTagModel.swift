@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+struct Genre : Codable, Identifiable {
+    let id: Int
+    let name: String
+}
+
 enum GenreColors: String, CaseIterable, Identifiable, Decodable {
     case action = "Action"
     case adventure = "Adventure"

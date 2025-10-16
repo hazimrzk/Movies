@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct MovieDetailsView: View {
-    let movieId: String
+    @StateObject private var viewModel = MovieDetailsViewModel()
+    let movieId: Int
     let backdropAspectRatio = CGSize(width: 16, height: 9)
-
     
-    @State var movieDetails: MovieDetails = MovieDetails()
-    @State var movieCasts: [Cast] = []
-    @State var movieCrews: [Crew] = []
-    
-    init(movieId: String) {
+    init(movieId: Int) {
         self.movieId = movieId
     }
     
@@ -24,7 +20,7 @@ struct MovieDetailsView: View {
         NavigationStack() {
             ScrollView {
                 LazyVStack(alignment: .leading) {
-                    AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(movieDetails.backdropPath)")) { phase in
+                    AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(viewModel.movieDetails.backdropPath)")) { phase in
                         if let image = phase.image {
                             image
                                 .resizable()
@@ -47,14 +43,14 @@ struct MovieDetailsView: View {
                                 .aspectRatio(backdropAspectRatio, contentMode: .fit)
                         }
                     }
-                    Text("\(movieDetails.title)")
+                    Text("\(viewModel.movieDetails.title)")
                         .font(.title)
                         .bold()
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(){
-                            ForEach(movieDetails.genres) { genre in
+                            ForEach(viewModel.movieDetails.genres) { genre in
                                 GenreTagView(genre: genre.name)
                             }
                         }
@@ -64,13 +60,13 @@ struct MovieDetailsView: View {
                     .padding(.vertical, 8)
 
                     HStack(alignment: .center){
-                        ForEach(movieDetails.spokenLanguages, id: \.self) { lang in
+                        ForEach(viewModel.movieDetails.spokenLanguages, id: \.self) { lang in
                             LanguageTagView(language: lang.iso6391)
                         }
                         Image(systemName: "clock.fill")
                             .foregroundStyle(Color.gray)
                             .font(.caption)
-                        Text("\(movieDetails.runtime/60) HR \(movieDetails.runtime%60) MINS")
+                        Text("\(viewModel.movieDetails.runtime/60) HR \(viewModel.movieDetails.runtime%60) MINS")
                             .font(.caption)
                             .textCase(.uppercase)
     //                    Spacer()
@@ -96,7 +92,7 @@ struct MovieDetailsView: View {
                                 .frame(width: 100)
                             Rectangle()
                                 .fill(Color.yellow)
-                                .frame(width: CGFloat(movieDetails.voteAverage*10))
+                                .frame(width: CGFloat(viewModel.movieDetails.voteAverage*10))
                         }
                         .mask(
                             HStack(spacing: 8) {
@@ -110,7 +106,7 @@ struct MovieDetailsView: View {
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 8)
-                    Text(movieDetails.overview)
+                    Text(viewModel.movieDetails.overview)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                         .background(
@@ -127,9 +123,13 @@ struct MovieDetailsView: View {
                         .padding(.vertical, 8)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
-                            ForEach(movieCasts.prefix(7)) { cast in
-                                MovieListTileView(listing: Listing(id: cast.id, popularity: cast.popularity, posterPath: cast.profilePath, title: cast.name))
-                                    .frame(width: 140)
+                            ForEach(viewModel.movieCasts.prefix(7)) { cast in
+                                MovieListTileView(listing: Listing(
+                                    id: cast.id,
+                                    popularity: cast.popularity,
+                                    posterPath: cast.profilePath,
+                                    title: cast.name))
+                                .frame(width: 140)
                             }
                         }
                         .padding(.horizontal)
@@ -142,10 +142,8 @@ struct MovieDetailsView: View {
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                     ZStack {
-    //                    RoundedRectangle(cornerRadius: 8)
-    //                        .fill(Color(.secondarySystemBackground))
                         LazyVStack {
-                            ForEach(movieCrews.prefix(7).enumerated(), id: \.element.id){ index, crew in
+                            ForEach(viewModel.movieCrews.prefix(7).enumerated(), id: \.element.id){ index, crew in
                                 index == 0 ? nil : Divider()
                                 HStack{
                                     Text(crew.name).font(.subheadline)
@@ -154,113 +152,21 @@ struct MovieDetailsView: View {
                                 }
                             }
                         }
-    //                    .padding()
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 8)
                 }
             }
-    //        .ignoresSafeArea()
-            .safeAreaInset(edge: .bottom){
-                BottomButtonBar()
-            }
-            .navigationTitle(movieDetails.title)
+            .safeAreaInset(edge: .bottom){ BottomButtonBar() }
+            .navigationTitle(viewModel.movieDetails.title)
             .navigationBarTitleDisplayMode(.inline)
-            .task {
-                do {
-                    movieDetails = try await getDetails()
-                    (movieCasts, movieCrews) = try await getCredits()
-                } catch TMDBError.invalidURL {
-                    print("Invalid URL")
-                } catch TMDBError.invalidData {
-                    print("Invalid Data")
-                } catch TMDBError.invalidResponse {
-                    print("Invalid Response")
-                } catch {
-                    print("Unknown error: \(error)")
-                }
-            }
-        }
-    }
-    
-    func getDetails() async throws -> MovieDetails {
-        let key = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNDVjN2IwNDcxZGFjZGVmYjdmNDA4ODU5YzY0OTE5YSIsIm5iZiI6MTc2MDI0OTkwNS44ODQsInN1YiI6IjY4ZWI0ODMxMzhjYmYwMTdjYjc4NmM3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.9kHuP5bedfgG9DHVaFxVrWMHTB11J7o1mOeLg_KeA-Q"
-
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)")!
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-        let queryItems: [URLQueryItem] = [
-          URLQueryItem(name: "language", value: "en-US"),
-        ]
-        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
-
-        var request = URLRequest(url: components.url!)
-        request.httpMethod = "GET"
-        request.timeoutInterval = 10
-        request.allHTTPHeaderFields = [
-          "accept": "application/json",
-          "Authorization": "Bearer \(key)"
-        ]
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-        print(String(decoding: data, as: UTF8.self))
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw TMDBError.invalidResponse
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let decodedData = try decoder.decode(MovieDetails.self, from: data)
-            printPretty(decodedData)
-            return decodedData
-        } catch {
-            throw TMDBError.invalidData
-        }
-    }
-    
-    func getCredits() async throws -> ([Cast], [Crew]) {
-        let key = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNDVjN2IwNDcxZGFjZGVmYjdmNDA4ODU5YzY0OTE5YSIsIm5iZiI6MTc2MDI0OTkwNS44ODQsInN1YiI6IjY4ZWI0ODMxMzhjYmYwMTdjYjc4NmM3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.9kHuP5bedfgG9DHVaFxVrWMHTB11J7o1mOeLg_KeA-Q"
-
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)/credits")!
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-        let queryItems: [URLQueryItem] = [
-          URLQueryItem(name: "language", value: "en-US"),
-        ]
-        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
-
-        var request = URLRequest(url: components.url!)
-        request.httpMethod = "GET"
-        request.timeoutInterval = 10
-        request.allHTTPHeaderFields = [
-          "accept": "application/json",
-          "Authorization": "Bearer \(key)"
-        ]
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-        print(String(decoding: data, as: UTF8.self))
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw TMDBError.invalidResponse
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let decodedData = try decoder.decode(MovieCredits.self, from: data)
-            printPretty(decodedData.cast)
-            printPretty(decodedData.crew)
-            return (decodedData.cast, decodedData.crew)
-        } catch {
-            throw TMDBError.invalidData
+            .task { await viewModel.taskGeMovieDetailsAndCredits(movieId: movieId)}
         }
     }
 }
 
 #Preview {
-    let movieId = "1054867"
-//    let movieId = "1038392"
-
-    
+    let movieId = 1054867
+//  1038392 1054867
     MovieDetailsView(movieId: movieId)
 }

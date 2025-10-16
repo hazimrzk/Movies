@@ -9,11 +9,6 @@ import Foundation
 
 //MovieDetail Models
 
-struct Genre : Codable, Identifiable {
-    let id: Int
-    let name: String
-}
-
 struct ProductionCompany : Codable {
     let id: Int
     let logoPath: String?
@@ -25,12 +20,6 @@ struct ProductionCompany : Codable {
 //    let iso31661: String
 //    let name: String
 //}
-
-struct SpokenLanguage : Codable, Hashable {
-    let englishName: String
-    let iso6391: String
-    let name: String
-}
 
 struct MovieDetails: Codable {
 //    var adult: Bool = false
