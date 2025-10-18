@@ -17,12 +17,12 @@ struct TabBarView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
+            Tab("Popular", systemImage: "flame.fill", value: .discover) {
+                HomeView()
+            }
             Tab("Discover", systemImage: "paperplane", value: .discover) {
                 HomeView()
             }
-//            Tab("Favorites", systemImage: "heart", value: .discover) {
-//                MovieDetailsView()
-//            }
 //            Tab("Bookings", systemImage: "ticket.fill", value: .discover) {
 //                MovieDetailsView()
 //            }

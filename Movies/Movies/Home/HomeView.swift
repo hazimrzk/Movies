@@ -16,7 +16,13 @@ struct HomeView: View {
             ScrollView {
                 LazyVGrid(columns: columns) {
                     ForEach (viewModel.listings) { listing in
-                        MovieListTileView(listing: listing).padding(4)
+                        NavigationLink {
+                            MovieDetailsView(movieId: listing.id)
+                                .toolbarVisibility(.hidden, for: .tabBar)
+                        } label: {
+                            MovieListTileView(listing: listing, showRating: true).padding(4)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding()

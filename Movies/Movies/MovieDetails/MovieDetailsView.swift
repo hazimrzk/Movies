@@ -34,12 +34,12 @@ struct MovieDetailsView: View {
                         } else if phase.error != nil {
                             Rectangle()
                                 .fill(Color(.secondarySystemBackground))
-                                .overlay(Image(systemName: "exclamationmark.triangle.fill"))
+                                .overlay(ProgressView())
                                 .aspectRatio(backdropAspectRatio, contentMode: .fit)
                         } else {
                             Rectangle()
                                 .fill(Color(.secondarySystemBackground))
-                                .overlay(ProgressView())
+                                .overlay(Image(systemName: "exclamationmark.triangle.fill"))
                                 .aspectRatio(backdropAspectRatio, contentMode: .fit)
                         }
                     }

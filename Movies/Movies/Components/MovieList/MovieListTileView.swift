@@ -14,8 +14,11 @@ struct MovieListTileView: View {
     
     let listing: Listing
     
-    init(listing: Listing) {
+    var showRating: Bool
+    
+    init(listing: Listing, showRating: Bool = false) {
         self.listing = listing
+        self.showRating = showRating
     }
     
     
@@ -51,7 +54,7 @@ struct MovieListTileView: View {
                         .font(.caption2)
                 }
                 .padding(8)
-                .opacity(0.85)
+                .opacity(showRating ? 0.85 : 0.0)
             }
             Text("\(listing.title)")
                 .font(.subheadline)
@@ -72,6 +75,6 @@ struct MovieListTileView: View {
         title: "Weapons"
     )
     
-    MovieListTileView(listing: listing)
+    MovieListTileView(listing: listing, showRating: true)
         .frame(width: 150)
 }
