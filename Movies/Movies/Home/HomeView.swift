@@ -29,6 +29,9 @@ struct HomeView: View {
             }
             .background(.background)
             .navigationTitle("Discover")
+            .refreshable {
+                await viewModel.taskGetListings()
+            }
         }
         .task{ await viewModel.taskGetListings() }
     }
