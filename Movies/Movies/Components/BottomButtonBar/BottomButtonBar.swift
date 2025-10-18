@@ -38,11 +38,7 @@ struct BottomButtonBar: View {
                 )
             }
             .sheet(isPresented: $showSheet) {
-                RoundedRectangle(cornerRadius: 16) // replace with BookSheet
-                    .frame(width: 350, height: 350)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
-                    .padding()
+                BookWebviewView()
             }
             Button {
                 toggleFavorite() // no Core Data implemented yet
