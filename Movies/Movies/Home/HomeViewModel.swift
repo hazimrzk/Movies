@@ -12,7 +12,10 @@ import Combine
 @MainActor
 class HomeViewModel: ObservableObject {
     @Published var listings: [Listing] = []
+    @Published var extensionListings: [Listing] = []
     @Published var errorMessage: String?
+    
+    var currentPage = 1
     
     private func getListings() async throws -> [Listing] {
         let key = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNDVjN2IwNDcxZGFjZGVmYjdmNDA4ODU5YzY0OTE5YSIsIm5iZiI6MTc2MDI0OTkwNS44ODQsInN1YiI6IjY4ZWI0ODMxMzhjYmYwMTdjYjc4NmM3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.9kHuP5bedfgG9DHVaFxVrWMHTB11J7o1mOeLg_KeA-Q"
@@ -21,7 +24,7 @@ class HomeViewModel: ObservableObject {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
         let queryItems: [URLQueryItem] = [
           URLQueryItem(name: "language", value: "en-US"),
-          URLQueryItem(name: "page", value: "1"),
+          URLQueryItem(name: "page", value: "\(currentPage)"),
         ]
         components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
 
@@ -49,7 +52,7 @@ class HomeViewModel: ObservableObject {
             throw TMDBError.invalidData
         }
     }
-    
+        
     func taskGetListings() async {
             do {
                 listings = try await getListings()
@@ -62,5 +65,36 @@ class HomeViewModel: ObservableObject {
             } catch {
                 errorMessage = error.localizedDescription
             }
-        }
+    }
+    
+    func taskRefreshListing() async {
+            do {
+                currentPage = 1
+                listings = try await getListings()
+            } catch TMDBError.invalidURL {
+                errorMessage = "Invalid URL"
+            } catch TMDBError.invalidData {
+                errorMessage = "Invalid Data"
+            } catch TMDBError.invalidResponse {
+                errorMessage = "Invalid Response"
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+    }
+    
+    func taskExtendListing() async {
+            do {
+                currentPage += 1
+                extensionListings = try await getListings()
+                listings.append(contentsOf: extensionListings)
+            } catch TMDBError.invalidURL {
+                errorMessage = "Invalid URL"
+            } catch TMDBError.invalidData {
+                errorMessage = "Invalid Data"
+            } catch TMDBError.invalidResponse {
+                errorMessage = "Invalid Response"
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+    }
 }

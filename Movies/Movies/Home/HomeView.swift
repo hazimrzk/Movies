@@ -24,14 +24,20 @@ struct HomeView: View {
                         }
                         .buttonStyle(.plain)
                     }
+                    Rectangle().fill(Color.clear).frame(height: 0)
+                    Rectangle().fill(Color.clear).frame(height: 0)
+                        .onAppear {
+                            Task {
+//                                print("loading new page")
+                                await viewModel.taskExtendListing()
+                            }
+                        }
                 }
                 .padding()
             }
             .background(.background)
             .navigationTitle("Discover")
-            .refreshable {
-                await viewModel.taskGetListings()
-            }
+            .refreshable { await viewModel.taskRefreshListing() }
         }
         .task{ await viewModel.taskGetListings() }
     }
