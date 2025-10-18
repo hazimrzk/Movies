@@ -1,3 +1,6 @@
 .DS_Store
 Movies/.DS_Store
 Movies/Movies/.DS_Store
+
+**/xcuserdata/
+
