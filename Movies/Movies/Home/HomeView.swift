@@ -9,8 +9,10 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
+    @State private var sortType: SortType = .date
+
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
-        
+    
     var body: some View {
         NavigationStack() {
             ScrollView {
@@ -35,8 +37,10 @@ struct HomeView: View {
                 }
                 .padding()
             }
+            .toolbar { ToolbarItem(placement: .navigationBarTrailing) { MenuToolButtonView(sortType: $viewModel.sortType) } }
+            .onChange(of: viewModel.sortType, { viewModel.sortChange() })
             .background(.background)
-            .navigationTitle("Discover")
+            .navigationTitle("Now Playing")
             .refreshable { await viewModel.taskRefreshListing() }
         }
         .task{ await viewModel.taskGetListings() }

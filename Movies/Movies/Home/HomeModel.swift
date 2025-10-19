@@ -17,9 +17,15 @@ struct Listing : Codable,Identifiable, Hashable {
 //    let overview : String
     let popularity : Double
     let posterPath : String?
-//    let releaseDate : String
+    let releaseDate : String // YYYY-MM-DD
     let title : String
 //    let video : Bool
-//    let voteAverage : Double
+    let voteAverage : Double
 //    let voteCount : Int
+}
+
+enum SortType {
+    case date
+    case title
+    case rating
 }

@@ -14,6 +14,9 @@ class HomeViewModel: ObservableObject {
     @Published var listings: [Listing] = []
     @Published var extensionListings: [Listing] = []
     @Published var errorMessage: String?
+    @Published var sortType: SortType = .date
+    
+    private var unsortedListings: [Listing] = []
     
     var currentPage = 1
     
@@ -96,5 +99,16 @@ class HomeViewModel: ObservableObject {
             } catch {
                 errorMessage = error.localizedDescription
             }
+    }
+    
+    func sortChange() {
+        switch sortType {
+        case .rating:
+            listings.sort { $0.voteAverage > $1.voteAverage }
+        case .date:
+            listings.sort { $0.releaseDate > $1.releaseDate }
+        case .title:
+            listings.sort { $0.title.localizedCompare($1.title) == .orderedAscending }
+        }
     }
 }

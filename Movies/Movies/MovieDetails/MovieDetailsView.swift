@@ -128,7 +128,10 @@ struct MovieDetailsView: View {
                                     id: cast.id,
                                     popularity: cast.popularity,
                                     posterPath: cast.profilePath,
-                                    title: cast.name))
+                                    releaseDate: "",
+                                    title: cast.name,
+                                    voteAverage: 0
+                                ))
                                 .frame(width: 140)
                             }
                         }

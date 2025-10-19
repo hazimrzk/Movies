@@ -7,24 +7,17 @@
 
 import SwiftUI
 
-enum Tabs {
-    case discover, favorites, bookings, search
-}
-
 struct TabBarView: View {
-    @State var selectedTab: Tabs = .discover
+    @State var selectedTab: Tabs = .nowPlaying
     @State var searchString = ""
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Popular", systemImage: "flame.fill", value: .discover) {
+            Tab("Now Playing", systemImage: "popcorn.fill", value: .nowPlaying) {
                 HomeView()
             }
-            Tab("Discover", systemImage: "paperplane", value: .discover) {
-                HomeView()
-            }
-//            Tab("Bookings", systemImage: "ticket.fill", value: .discover) {
-//                MovieDetailsView()
+//            Tab("Genres", systemImage: "theatermasks.fill", value: .genres) {
+//                HomeView()
 //            }
             Tab(value: .search, role: .search) {
                 NavigationStack {

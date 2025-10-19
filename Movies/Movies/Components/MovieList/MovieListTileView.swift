@@ -72,7 +72,9 @@ struct MovieListTileView: View {
         id: 1078605,
         popularity: 105.6348,
         posterPath: "/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg",
-        title: "Weapons"
+        releaseDate: "2023-01-01",
+        title: "Weapons",
+        voteAverage: 0,
     )
     
     MovieListTileView(listing: listing, showRating: true)

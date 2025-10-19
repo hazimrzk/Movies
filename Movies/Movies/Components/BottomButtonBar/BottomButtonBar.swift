@@ -45,7 +45,7 @@ struct BottomButtonBar: View {
             } label: {
                 Image(systemName: isFavorite ? "heart.fill" : "heart")
                     .padding()
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.blue)
                     .background(
                         Circle()
                             .fill(Color.white)
