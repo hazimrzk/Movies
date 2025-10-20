@@ -9,24 +9,27 @@ import SwiftUI
 
 struct MenuToolButtonView: View {
     @Binding var sortType: SortType
-//    @Binding var listType: ListType
+    @Binding var listType: ListType
+    @Binding var column: [GridItem]
 
     
     var body: some View {
         Menu {
-//            Button {
-//                listType = .icons
-//            } label: {
-//                Image(systemName: listType == .icons ? "square.grid.2x2.fill" : "square.grid.2x2")
-//                Text("Icons").fontWeight(listType == .icons ? .bold : .regular)
-//            }
-//            Button {
-//                listType = .list
-//            } label: {
-//                Image(systemName: listType == .list ? "list.bullet.circle.fill" : "list.bullet")
-//                Text("Lists").fontWeight(listType == .list ? .bold : .regular)
-//            }
-//            Divider()
+            Button {
+                listType = .icon
+                column = [GridItem(.flexible()), GridItem(.flexible())]
+            } label: {
+                Image(systemName: listType == .icon ? "square.grid.2x2.fill" : "square.grid.2x2")
+                Text("Icons").fontWeight(listType == .icon ? .bold : .regular)
+            }
+            Button {
+                listType = .list
+                column = [GridItem(.flexible())]
+            } label: {
+                Image(systemName: listType == .list ? "list.bullet.circle.fill" : "list.bullet")
+                Text("Lists").fontWeight(listType == .list ? .bold : .regular)
+            }
+            Divider()
             Button {
                 sortType = .date
             } label: {
@@ -52,5 +55,6 @@ struct MenuToolButtonView: View {
 }
 
 #Preview {
-    MenuToolButtonView(sortType: .constant(.date))
+    @Previewable @State var previewColumns = [GridItem(.flexible()), GridItem(.flexible())]
+    MenuToolButtonView(sortType: .constant(.date), listType: .constant(.icon), column: $previewColumns )
 }

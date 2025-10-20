@@ -29,3 +29,8 @@ enum SortType {
     case title
     case rating
 }
+
+enum ListType {
+    case icon
+    case list
+}

@@ -14,6 +14,7 @@ class HomeViewModel: ObservableObject {
     @Published var listings: [Listing] = []
     @Published var errorMessage: String?
     @Published var sortType: SortType = .date
+    @Published var listType: ListType = .icon
 
     private var service: TMDBService = TMDBService()
     private var currentPage = 1

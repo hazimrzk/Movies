@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MovieListListView: View {
     let listing: Listing
+    var showRating: Bool
         
     init(listing: Listing, showRating: Bool = false) {
         self.listing = listing
+        self.showRating = showRating
     }
     
     var body: some View {
@@ -28,6 +30,11 @@ struct MovieListListView: View {
                 Text("\(listing.releaseDate.prefix(4))")
                     .font(.caption)
                     .padding(4)
+                Text("Rating: \(Int(listing.popularity))")
+                    .font(.caption)
+                    .padding(4)
+                    .frame(height: showRating ? 20 : 0)
+                    .opacity(showRating ? 1 : 0)
 //                HStack {
 //                    Image(systemName: "star.fill").foregroundStyle(Color.yellow)
 //                    Text(String(format: "%.2f", listing.voteAverage))

@@ -9,9 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
-    @State private var sortType: SortType = .date
-
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    @State private var columns = [GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack() {
@@ -22,7 +20,15 @@ struct HomeView: View {
                             MovieDetailsView(movieId: listing.id)
                                 .toolbarVisibility(.hidden, for: .tabBar)
                         } label: {
-                            MovieListTileView(listing: listing, showRating: true).padding(4)
+                            switch viewModel.listType {
+                                case .icon:
+                                    MovieListTileView(listing: listing, showRating: true).padding(4)
+                                case .list:
+                                    HStack {
+                                        MovieListListView(listing: listing, showRating: true).frame(height: 130).padding(0)
+                                        Spacer()
+                                    }
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -30,14 +36,13 @@ struct HomeView: View {
                     Rectangle().fill(Color.clear).frame(height: 0)
                         .onAppear {
                             Task {
-//                                print("loading new page")
                                 await viewModel.taskExtendListing()
                             }
                         }
                 }
                 .padding()
             }
-            .toolbar { ToolbarItem(placement: .navigationBarTrailing) { MenuToolButtonView(sortType: $viewModel.sortType) } }
+            .toolbar { ToolbarItem(placement: .navigationBarTrailing) { MenuToolButtonView(sortType: $viewModel.sortType, listType: $viewModel.listType, column: $columns) } }
             .onChange(of: viewModel.sortType, { viewModel.sortChange() })
             .background(.background)
             .navigationTitle("Now Playing")

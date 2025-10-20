@@ -10,7 +10,6 @@ import SwiftUI
 struct MovieListTileView: View {
     
     let listing: Listing
-    
     var showRating: Bool
     
     init(listing: Listing, showRating: Bool = false) {
