@@ -163,7 +163,7 @@ struct MovieDetailsView: View {
             .safeAreaInset(edge: .bottom){ BottomButtonBar() }
             .navigationTitle(viewModel.movieDetails.title)
             .navigationBarTitleDisplayMode(.inline)
-            .task { await viewModel.taskGeMovieDetailsAndCredits(movieId: movieId)}
+            .task { await viewModel.taskGetMovieDetailsAndCredits(movieId: movieId) }
         }
     }
 }
