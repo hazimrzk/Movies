@@ -30,6 +30,7 @@ struct DiscoverView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            Rectangle().fill(Color.clear).frame(width: 0, height: 210).padding(0)
                         }
                     }
                     .padding(.bottom)
@@ -49,6 +50,7 @@ struct DiscoverView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            Rectangle().fill(Color.clear).frame(width: 0, height: 210).padding(0)
                         }
                     }
                     .padding(.bottom)
@@ -68,6 +70,7 @@ struct DiscoverView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            Rectangle().fill(Color.clear).frame(width: 0, height: 210).padding(0)
                         }
                     }
                     .padding(.bottom)
@@ -87,6 +90,7 @@ struct DiscoverView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            Rectangle().fill(Color.clear).frame(width: 0, height: 210).padding(0)
                         }
                     }
                     .padding(.bottom)
@@ -106,6 +110,7 @@ struct DiscoverView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            Rectangle().fill(Color.clear).frame(width: 0, height: 210).padding(0)
                         }
                     }
                     .padding(.bottom)

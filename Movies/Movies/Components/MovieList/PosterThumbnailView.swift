@@ -24,18 +24,22 @@ struct PosterThumbnailView: View {
                     .resizable()
                     .aspectRatio(posterAspectRatio, contentMode: .fit)
                     .overlay(LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .top, endPoint: .bottom).opacity(0.5))
+                    .transition(.opacity)
             } else if phase.error != nil {
                 Rectangle()
                     .fill(Color(.secondarySystemBackground))
                     .overlay(Image(systemName: "exclamationmark.triangle.fill"))
                     .aspectRatio(posterAspectRatio, contentMode: .fit)
+                    .transition(.opacity)
             } else {
                 Rectangle()
                     .fill(Color(.secondarySystemBackground))
                     .overlay(ProgressView())
                     .aspectRatio(posterAspectRatio, contentMode: .fit)
+                    .transition(.opacity)
             }
         }
+        .animation(.easeInOut(duration: 0.5))
     }
 }
 

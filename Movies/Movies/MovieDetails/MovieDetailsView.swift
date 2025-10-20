@@ -31,18 +31,23 @@ struct MovieDetailsView: View {
                                         Rectangle().fill(Color.clear)
                                     }
                                 )
+                                .transition(.opacity)
                         } else if phase.error != nil {
                             Rectangle()
                                 .fill(Color(.secondarySystemBackground))
                                 .overlay(ProgressView())
                                 .aspectRatio(backdropAspectRatio, contentMode: .fit)
+                                .transition(.opacity)
                         } else {
                             Rectangle()
                                 .fill(Color(.secondarySystemBackground))
                                 .overlay(Image(systemName: "exclamationmark.triangle.fill"))
                                 .aspectRatio(backdropAspectRatio, contentMode: .fit)
+                                .transition(.opacity)
                         }
                     }
+                    .animation(.easeInOut(duration: 0.5))
+
                     Text("\(viewModel.movieDetails.title)")
                         .font(.title)
                         .bold()
