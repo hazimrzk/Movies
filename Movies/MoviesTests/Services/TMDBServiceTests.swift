@@ -298,12 +298,12 @@ final class TMDBServiceTests: XCTestCase {
         mockNetwork.result = .success(json)
 
         // Act
-        let results = try await service.getNowPlaying(page: 1)
+        let results = try await service.getListingsByGenre(genreId: 28)
 
         // Assert
         XCTAssertEqual(results.count, 1)
         await MainActor.run {XCTAssertEqual(results.first?.title, "Mission: Impossible - The Final Reckoning") }
-        XCTAssertEqual(mockNetwork.lastEndpoint, .nowPlaying(page: 1))
+        XCTAssertEqual(mockNetwork.lastEndpoint, .listingsByGenre(genreId: 28))
     }
     
     func testGetListingByGenreInvalidResponse() async {
@@ -312,7 +312,7 @@ final class TMDBServiceTests: XCTestCase {
 
         // Act & Assert
         do {
-            _ = try await service.getNowPlaying(page: 1)
+            _ = try await service.getListingsByGenre(genreId: 28)
             XCTFail("Expected to throw invalidResponse")
         } catch TMDBError.invalidResponse {
             // ✅ Correct error thrown
@@ -328,7 +328,69 @@ final class TMDBServiceTests: XCTestCase {
 
         // Act & Assert
         do {
-            _ = try await service.getNowPlaying(page: 1)
+            _ = try await service.getListingsByGenre(genreId: 28)
+            XCTFail("Expected invalidData")
+        } catch TMDBError.invalidData {
+            // ✅ Correct
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testGetListingByPhraseSuccess() async throws {
+        // Arrange
+        let json = """
+        {
+            "page": 1,
+            "results": [
+                {
+                    "id": 671,
+                    "popularity": 34.6164,
+                    "posterPath": "/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg",
+                    "releaseDate": "2001-11-16",
+                    "title": "Harry Potter and the Philosopher's Stone",
+                    "voteAverage": 7.9
+                }
+            ],
+            "totalPages": 1,
+            "totalResults": 1
+        }
+        """.data(using: .utf8)!
+        
+        mockNetwork.result = .success(json)
+
+        // Act
+        let results = try await service.getListingsByPhrase(phrase: "Harry Potter")
+
+        // Assert
+        XCTAssertEqual(results.count, 1)
+        await MainActor.run {XCTAssertEqual(results.first?.title, "Harry Potter and the Philosopher's Stone") }
+        XCTAssertEqual(mockNetwork.lastEndpoint, .searchByPhrase(phrase: "Harry Potter"))
+    }
+    
+    func testGetListingByPhraseInvalidResponse() async {
+        // Arrange
+        mockNetwork.result = .failure(TMDBError.invalidResponse)
+
+        // Act & Assert
+        do {
+            _ = try await service.getListingsByPhrase(phrase: "Harry Potter")
+            XCTFail("Expected to throw invalidResponse")
+        } catch TMDBError.invalidResponse {
+            // ✅ Correct error thrown
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testGetListingByPhraseInvalidData() async {
+        // Arrange: Broken JSON
+        let badJson = "{ \"invalid\": true }".data(using: .utf8)!
+        mockNetwork.result = .success(badJson)
+
+        // Act & Assert
+        do {
+            _ = try await service.getListingsByPhrase(phrase: "Harry Potter")
             XCTFail("Expected invalidData")
         } catch TMDBError.invalidData {
             // ✅ Correct

@@ -21,12 +21,7 @@ struct TabBarView: View {
             }
             Tab(value: .search, role: .search) {
                 NavigationStack {
-                    List {
-                        Text("Search Movies")
-                            .foregroundStyle(Color.gray)
-                    }
-                    .navigationTitle("Search")
-                    .searchable(text: $searchString)
+                        SearchResultsView()
                 }
             }
         }

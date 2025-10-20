@@ -18,7 +18,6 @@ struct MovieListTileView: View {
         self.showRating = showRating
     }
     
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             ZStack(alignment: .bottom) {

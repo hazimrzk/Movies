@@ -24,7 +24,7 @@ struct DiscoverView: View {
                                         .toolbarVisibility(.hidden, for: .tabBar)
                                 } label: {
                                     PosterThumbnailView(posterPath: listing.posterPath ?? "")
-                                        .frame(width: 150, height: 225)
+                                        .frame(height: 210)
                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                         .padding(4)
                                 }
@@ -43,7 +43,7 @@ struct DiscoverView: View {
                                         .toolbarVisibility(.hidden, for: .tabBar)
                                 } label: {
                                     PosterThumbnailView(posterPath: listing.posterPath ?? "")
-                                        .frame(width: 150, height: 225)
+                                        .frame(height: 210)
                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                         .padding(4)
                                 }
@@ -62,7 +62,7 @@ struct DiscoverView: View {
                                         .toolbarVisibility(.hidden, for: .tabBar)
                                 } label: {
                                     PosterThumbnailView(posterPath: listing.posterPath ?? "")
-                                        .frame(width: 150, height: 225)
+                                        .frame(height: 210)
                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                         .padding(4)
                                 }
@@ -81,7 +81,7 @@ struct DiscoverView: View {
                                         .toolbarVisibility(.hidden, for: .tabBar)
                                 } label: {
                                     PosterThumbnailView(posterPath: listing.posterPath ?? "")
-                                        .frame(width: 150, height: 225)
+                                        .frame(height: 210)
                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                         .padding(4)
                                 }
@@ -100,7 +100,7 @@ struct DiscoverView: View {
                                         .toolbarVisibility(.hidden, for: .tabBar)
                                 } label: {
                                     PosterThumbnailView(posterPath: listing.posterPath ?? "")
-                                        .frame(width: 150, height: 225)
+                                        .frame(height: 210)
                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                         .padding(4)
                                 }

@@ -31,6 +31,11 @@ class TMDBService {
         let response: TMDBListings = try await network.request(.listingsByGenre(genreId: genreId), responseType: TMDBListings.self)
         return response.results
     }
+    
+    func getListingsByPhrase(phrase: String) async throws -> [Listing] {
+        let response: TMDBListings = try await network.request(.searchByPhrase(phrase: phrase), responseType: TMDBListings.self)
+        return response.results
+    }
 }
 
 enum TMDBEndpoint: Equatable {
@@ -38,6 +43,7 @@ enum TMDBEndpoint: Equatable {
     case movieDetails(id: Int)
     case movieCredits(id: Int)
     case listingsByGenre(genreId: Int)
+    case searchByPhrase(phrase: String)
 
     var path: String {
         switch self {
@@ -49,6 +55,8 @@ enum TMDBEndpoint: Equatable {
             return "/movie/\(id)/credits"
         case .listingsByGenre:
             return "/discover/movie"
+        case .searchByPhrase:
+            return "/search/movie"
         }
     }
     
@@ -73,6 +81,13 @@ enum TMDBEndpoint: Equatable {
                 URLQueryItem(name: "page", value: "1"),
                 URLQueryItem(name: "sort_by", value: "popularity.desc"),
                 URLQueryItem(name: "with_genres", value: "\(genreId)")
+            ]
+        case .searchByPhrase(let phrase):
+            return [
+                URLQueryItem(name: "query", value: "\(urlEncode(phrase))"),
+                URLQueryItem(name: "include_adult", value: "false"),
+                URLQueryItem(name: "language", value: "en-US"),
+                URLQueryItem(name: "page", value: "1"),
             ]
         }
     }
