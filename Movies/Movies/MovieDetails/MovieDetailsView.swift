@@ -41,7 +41,7 @@ struct MovieDetailsView: View {
                         } else {
                             Rectangle()
                                 .fill(Color(.secondarySystemBackground))
-                                .overlay(Image(systemName: "exclamationmark.triangle.fill"))
+                                .overlay(ProgressView())
                                 .aspectRatio(backdropAspectRatio, contentMode: .fit)
                                 .transition(.opacity)
                         }

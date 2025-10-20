@@ -25,9 +25,11 @@ struct HomeView: View {
                                     MovieListTileView(listing: listing, showRating: true).padding(4)
                                 case .list:
                                     HStack {
-                                        MovieListListView(listing: listing, showRating: true).frame(height: 130).padding(0)
+                                        MovieListListView(listing: listing, showRating: true).frame(height: 135).padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
                                         Spacer()
                                     }
+                                    .background(Color(.secondarySystemBackground))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
                             }
                         }
                         .buttonStyle(.plain)
