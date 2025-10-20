@@ -28,7 +28,7 @@ class TMDBService {
     }
 }
 
-enum TMDBEndpoint {
+enum TMDBEndpoint: Equatable {
     case nowPlaying(page: Int)
     case movieDetails(id: Int)
     case movieCredits(id: Int)
