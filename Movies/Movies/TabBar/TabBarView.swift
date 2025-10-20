@@ -16,9 +16,9 @@ struct TabBarView: View {
             Tab("Now Playing", systemImage: "popcorn.fill", value: .nowPlaying) {
                 HomeView()
             }
-//            Tab("Genres", systemImage: "theatermasks.fill", value: .genres) {
-//                HomeView()
-//            }
+            Tab("Genres", systemImage: "theatermasks.fill", value: .genres) {
+                DiscoverView()
+            }
             Tab(value: .search, role: .search) {
                 NavigationStack {
                     List {

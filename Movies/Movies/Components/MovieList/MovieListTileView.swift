@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct MovieListTileView: View {
-    let posterAspectRatio = CGSize(width: 2, height: 3)
-    let baseImageURL = "https://image.tmdb.org/t/p/w500"
-    let placeholderImage = "poster"
     
     let listing: Listing
     
@@ -25,24 +22,7 @@ struct MovieListTileView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             ZStack(alignment: .bottom) {
-                AsyncImage(url: URL(string: listing.posterPath.map { baseImageURL + $0 } ?? "")) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(posterAspectRatio, contentMode: .fit)
-                            .overlay(LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .top, endPoint: .bottom).opacity(0.5))
-                    } else if phase.error != nil {
-                        Rectangle()
-                            .fill(Color(.secondarySystemBackground))
-                            .overlay(Image(systemName: "exclamationmark.triangle.fill"))
-                            .aspectRatio(posterAspectRatio, contentMode: .fit)
-                    } else {
-                        Rectangle()
-                            .fill(Color(.secondarySystemBackground))
-                            .overlay(ProgressView())
-                            .aspectRatio(posterAspectRatio, contentMode: .fit)
-                    }
-                }
+                PosterThumbnailView(posterPath: listing.posterPath ?? "")
                 HStack {
                     Spacer()
                     Text("\(Int(listing.popularity))")
