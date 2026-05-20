@@ -1,3 +1,19 @@
+# Xcode
+DerivedData/
+.build/
+
+# User settings
+*.xcuserstate
+xcuserdata/
+
+# SwiftPM
+Packages/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+#macOS
 .DS_Store
 Movies/.DS_Store
 Movies/Movies/.DS_Store

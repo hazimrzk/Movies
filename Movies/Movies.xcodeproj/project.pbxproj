@@ -19,6 +19,7 @@
 /* Begin PBXFileReference section */
 		0C5871ED2EA60D8A00236C69 /* MoviesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE2EA092E9A1EA30058E751 /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31B4BD5A2FBD8E1F00174BA4 /* Movies.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Movies.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -55,6 +56,7 @@
 		0CE2EA002E9A1EA30058E751 = {
 			isa = PBXGroup;
 			children = (
+				31B4BD5A2FBD8E1F00174BA4 /* Movies.xctestplan */,
 				0CE2EA0B2E9A1EA30058E751 /* Movies */,
 				0C5871EE2EA60D8A00236C69 /* MoviesTests */,
 				0CE2EA0A2E9A1EA30058E751 /* Products */,
@@ -206,7 +208,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2RV3T96P64;
+				DEVELOPMENT_TEAM = FVL8Q66Y5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hazimrzk.MoviesTests;
@@ -227,7 +229,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2RV3T96P64;
+				DEVELOPMENT_TEAM = FVL8Q66Y5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hazimrzk.MoviesTests;
@@ -370,7 +372,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2RV3T96P64;
+				DEVELOPMENT_TEAM = FVL8Q66Y5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -402,7 +404,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2RV3T96P64;
+				DEVELOPMENT_TEAM = FVL8Q66Y5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
